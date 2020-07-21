@@ -50,6 +50,32 @@ void mat_print(MAT* mat) {
 	}
 }
 
+char mat_solve_gauss(MAT* a, MAT* b)
+{
+	int i, j;
+	float guide;
+	for (i = 0; i < a->cols; i++)
+	{
+		ELEM(a, 0, i) = ELEM(a, 0, 0) / ELEM(a, 0, i);
+	}
+	ELEM(b, 0, 0) = ELEM(a, 0, 0) / ELEM(b, 0, 0);
+
+	mat_print(a);
+	printf("\n");
+	mat_print(b);
+	printf("\n"); printf("\n");
+
+	for (i = 1; i < a->rows; i++)
+	{
+		guide = -1 * ELEM(a, i, 0);
+		for (j = 0; j < a->cols; j++)
+		{
+			ELEM(a, i, j) += ELEM(a, 0, j) * guide;
+		}
+		ELEM(b, i, 1) += ELEM(a, 0, j) * guide;
+	    printf("b_%d: %.3f\n",i, ELEM(b, i, 1));
+	}
+}
 
 void mat_destroy(MAT* mat) {
 	free(mat);
@@ -69,11 +95,14 @@ int main()
 	
 	mat_random(a);
 	mat_random(b);
-	printf("\n"); printf("\n");
+	
 	mat_print(a);
 	printf("\n");
 	mat_print(b);
-
+	printf("\n"); printf("\n");
+	mat_solve_gauss(a, b);
+	mat_print(a);
+	mat_print(b);
 	mat_destroy(a);
 	mat_destroy(b);
 	return 0;
