@@ -33,13 +33,22 @@ void mat_random(MAT* mat) {
 	for (i = 0; i < mat->cols; i++) {
 		for (j = 0; j < mat->rows; j++) {
 			ELEM(mat, i, j) = -1 + (1 - (-1)) * ((float)rand() / (float)(RAND_MAX));
-			printf(" %.3f ", ELEM(mat, i, j));
 		}
-		printf("\n");
 	}
 	
 }
 
+void mat_print(MAT* mat) {
+	int i, j;
+
+	for (i = 0; i < mat->rows; i++) {
+		for (j = 0; j < mat->cols; j++) {
+			if (ELEM(mat, i, j) < 0) printf(" %.3f", ELEM(mat, i, j));
+			else printf("  %.3f", ELEM(mat, i, j));
+		}
+		printf("\n");
+	}
+}
 
 
 void mat_destroy(MAT* mat) {
@@ -56,10 +65,14 @@ int main()
 	scanf_s("%d", &n);
 
 	a = mat_create_with_type(n, n);
-	b = mat_create_with_type(1, n);
+	b = mat_create_with_type(n, 1);
 	
 	mat_random(a);
 	mat_random(b);
+	printf("\n"); printf("\n");
+	mat_print(a);
+	printf("\n");
+	mat_print(b);
 
 	mat_destroy(a);
 	mat_destroy(b);
