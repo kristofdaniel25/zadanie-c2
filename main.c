@@ -52,30 +52,37 @@ void mat_print(MAT* mat) {
 
 char mat_solve_gauss(MAT* a, MAT* b)
 {
-	int i, j;
+	int i, j, k;
 	float guide;
-
-	guide = ELEM(a, 0, 0);
-	for (i = 0; i < a->cols; i++)
-	{
-		ELEM(a, 0, i) = ELEM(a, 0, i) / guide;
-	}
-	ELEM(b, 0, 0) = ELEM(a, 0, 0) / guide;
-
 	unsigned int c = a->cols - 1;
-	printf("c = %d\n", c);
-	for (i = 1; i < a->rows; i++)
+
+
+	for (k = 0; k < a->rows; k++)
 	{
-		guide = -1 * ELEM(a, i, 0);
-		for (j = 0; j < a->cols; j++)
+		guide = ELEM(a, k, k);
+		ELEM(b, k, 0) = ELEM(b, k, 0) / guide;
+		
+        for (i = k; i < a->cols; i++)
 		{
-			ELEM(a, i, j) += ELEM(a, 0, j) * guide;
+			ELEM(a, k, i) = ELEM(a, k, i) / guide;
 		}
-		printf("1] b_%d  %.3f\n", i, ELEM(b, i, 0));
-		ELEM(b, i, 0) = ELEM(b, i, 0) + ELEM(a, 0, c) * guide; 
-		printf("2] b_%d  %.3f\n",i, ELEM(b, i, 0));
+		
+
+		printf("c = %d\n", c);
+
+		for (i = k+1; i < a->rows; i++)
+		{
+			guide = -1 * ELEM(a, i, k);
+			for (j = k; j < a->cols; j++)
+			{
+				ELEM(a, i, j) += ELEM(a, k, j) * guide;
+			}
+
+			ELEM(b, i, 0) += ELEM(a, 0, c) * guide;
+		}
 	}
 }
+
 
 void mat_destroy(MAT* mat) {
 	free(mat);
