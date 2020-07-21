@@ -32,8 +32,8 @@ void mat_random(MAT* mat) {
 
 	for (i = 0; i < mat->cols; i++) {
 		for (j = 0; j < mat->rows; j++) {
-			ELEM(mat, i, j) = -1 + (float)rand() / (float)(RAND_MAX););
-			printf("%.3f", ELEM(mat, i, j));
+			ELEM(mat, i, j) = -1 + (1 - (-1)) * ((float)rand() / (float)(RAND_MAX));
+			printf(" %.3f ", ELEM(mat, i, j));
 		}
 		printf("\n");
 	}
