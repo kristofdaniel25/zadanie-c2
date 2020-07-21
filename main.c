@@ -26,21 +26,40 @@ MAT* mat_create_with_type(unsigned int r, unsigned int c)
 	return m;
 }
 
+void mat_random(MAT* mat) {
+	int i, j;
+
+
+	for (i = 0; i < mat->cols; i++) {
+		for (j = 0; j < mat->rows; j++) {
+			ELEM(mat, i, j) = -1 + (float)rand() / (float)(RAND_MAX););
+			printf("%.3f", ELEM(mat, i, j));
+		}
+		printf("\n");
+	}
+	
+}
+
+
+
 void mat_destroy(MAT* mat) {
 	free(mat);
-	free(mat->elem);
 }
 
 int main()
 {
 	MAT* a, * b;
+	unsigned int n;
 	srand(time(NULL));
 
-	printf("Zadajte velkost matice nxn:");
-	scanf("%d", &n);
+	printf("Zadajte velkost matice a (nxn):");
+	scanf_s("%d", &n);
 
 	a = mat_create_with_type(n, n);
 	b = mat_create_with_type(1, n);
+	
+	mat_random(a);
+	mat_random(b);
 
 	mat_destroy(a);
 	mat_destroy(b);
